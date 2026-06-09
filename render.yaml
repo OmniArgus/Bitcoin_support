@@ -1,0 +1,20 @@
+# Render Blueprint. Note: background workers are a paid plan on Render.
+# On Railway you don't need this file — it auto-detects the Procfile.
+services:
+  - type: worker
+    name: bitcoin-price-bot
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: python bot.py
+    envVars:
+      - key: BOT_TOKEN
+        sync: false   # set this in the Render dashboard (secret)
+      - key: COIN_ID
+        value: bitcoin
+      - key: VS_CURRENCY
+        value: usd
+      - key: THRESHOLD
+        value: "500"
+      - key: POLL_SECONDS
+        value: "60"
