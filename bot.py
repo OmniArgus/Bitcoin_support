@@ -39,7 +39,7 @@ BOT_TOKEN = os.getenv("BOT_TOKEN", "").strip()
 COIN_ID = os.getenv("COIN_ID", "bitcoin").strip()
 VS_CURRENCY = os.getenv("VS_CURRENCY", "usd").strip()
 POLL_SECONDS = int(os.getenv("POLL_SECONDS", "60"))
-DEFAULT_THRESHOLD = float(os.getenv("THRESHOLD", "500"))
+DEFAULT_THRESHOLD = float(os.getenv("THRESHOLD", "30"))
 
 COINGECKO_URL = "https://api.coingecko.com/api/v3/simple/price"
 

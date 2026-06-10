@@ -1,7 +1,7 @@
 # Bitcoin Price Notification Bot
 
 A Telegram bot (like [t.me/bitcoin_price](https://t.me/bitcoin_price)) that shows
-the current Bitcoin price and **notifies you whenever the price moves by $500**
+the current Bitcoin price and **notifies you whenever the price moves by $30**
 (configurable). Prices come from the free [CoinGecko](https://www.coingecko.com/) API.
 
 ## Commands
@@ -47,7 +47,7 @@ the current Bitcoin price and **notifies you whenever the price moves by $500**
 Every `POLL_SECONDS` (default 60) the bot fetches the BTC price. It remembers the
 price at which it last alerted you; when the price has moved up or down by at least
 the threshold since then, it sends a notification and resets the baseline to the
-new price. So with a $500 threshold you get one message per $500 move, not a flood.
+new price. So with a $30 threshold you get one message per $30 move, not a flood.
 
 ## Deploy to the cloud (run 24/7, no Python on your PC)
 

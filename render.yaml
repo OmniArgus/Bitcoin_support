@@ -15,6 +15,6 @@ services:
       - key: VS_CURRENCY
         value: usd
       - key: THRESHOLD
-        value: "500"
+        value: "30"
       - key: POLL_SECONDS
         value: "60"
