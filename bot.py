@@ -40,6 +40,11 @@ COIN_ID = os.getenv("COIN_ID", "bitcoin").strip()
 VS_CURRENCY = os.getenv("VS_CURRENCY", "usd").strip()
 POLL_SECONDS = int(os.getenv("POLL_SECONDS", "60"))
 DEFAULT_THRESHOLD = float(os.getenv("THRESHOLD", "30"))
+ADMIN_IDS = {
+    int(uid)
+    for uid in os.getenv("ADMIN_IDS", "").replace(",", " ").split()
+    if uid.strip()
+}
 
 COINGECKO_URL = "https://api.coingecko.com/api/v3/simple/price"
 
@@ -59,6 +64,12 @@ async def fetch_price() -> float:
 def format_price(price: float) -> str:
     symbol = "$" if VS_CURRENCY == "usd" else ""
     return f"{symbol}{price:,.2f} {VS_CURRENCY.upper()}"
+
+
+def is_admin(user_id: int | None) -> bool:
+    """Only configured admins may change settings. If ADMIN_IDS is empty,
+    nobody is treated as admin (the threshold becomes read-only)."""
+    return user_id is not None and user_id in ADMIN_IDS
 
 
 # --- Command handlers -------------------------------------------------------
@@ -100,6 +111,12 @@ async def price(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
 
 async def threshold(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     if context.args:
+        user = update.effective_user
+        if not is_admin(user.id if user else None):
+            await update.message.reply_text(
+                "⛔ Only an admin can change the alert threshold."
+            )
+            return
         try:
             value = float(context.args[0].replace(",", "").replace("$", ""))
             if value <= 0:
